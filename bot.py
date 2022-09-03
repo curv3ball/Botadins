@@ -14,7 +14,7 @@ import functions
 import regions
 
 # local variables
-webhook = DiscordWebhook(url=' ', rate_limit_retry=True)
+webhook = DiscordWebhook(url='', rate_limit_retry=True)
 response = None
 btime = 0
 start = time.time()
@@ -44,7 +44,7 @@ while True:
             pic = pyautogui.screenshot(region=(sha[0] - 2, sha[1] - 2, 100, 100))
             pic.save("images/currentLevel.png")
 
-            webhook = DiscordWebhook( url = ' ',  rate_limit_retry=True)
+            webhook = DiscordWebhook( url = '',  rate_limit_retry=True)
             webhook.remove_file('attachment://file1.png')
 
             with open("images/currentLevel.png", "rb") as f: 
@@ -91,3 +91,7 @@ while True:
         pyautogui.keyDown('s'); time.sleep(0.1)
         pyautogui.keyUp('s'); time.sleep(1)
     
+    endgame_summary = functions.locateCenter('images/ui/match_summary.png', regions.endgame_top, default_confidence)
+    if endgame_summary != None:
+        pyautogui.keyDown('escape'); time.sleep(0.2)
+        pyautogui.keyUp('escape'); time.sleep(1)
