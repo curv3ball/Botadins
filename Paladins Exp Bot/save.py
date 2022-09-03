@@ -29,7 +29,7 @@ response = None
 start = time.time()
 
 while True:
-    if (time.time() - start >= 2700): # if 45minutes since started
+    if (time.time() - start >= 2700):
         subprocess.call("TASKKILL /F /IM Paladins.exe", shell=True)
         time.sleep(5)
         subprocess.run("start steam://run/444090", shell=True)
