@@ -14,7 +14,8 @@ import functions
 import regions
 
 # local variables
-webhook = DiscordWebhook(url='', rate_limit_retry=True)
+webhook_url = 'https://discord.com/api/webhooks/1014427274621239316/96JMPrJXduiuPhZEUFl39iAWjWuWihPLJuSi_gMAF4fvH6SsXwwi6jBS_unSqL5HqnCu'
+webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
 response = None
 btime = 0
 start = time.time()
@@ -23,7 +24,7 @@ default_confidence = 0.9
 while True:
     if (time.time() - start >= 2700): # 2700 / 60 = 45
         functions.log("restarting game")
-        functions.restartGame()
+        #   functions.restartGame()
 
     champion_select = functions.locateCenter('images/champions/sha/champ_select.png', regions.champion_select, 0.8)
     if champion_select != None:
@@ -44,7 +45,7 @@ while True:
             pic = pyautogui.screenshot(region=(sha[0] - 2, sha[1] - 2, 100, 100))
             pic.save("images/currentLevel.png")
 
-            webhook = DiscordWebhook( url = '',  rate_limit_retry=True)
+            webhook = DiscordWebhook( url = webhook_url,  rate_limit_retry=True)
             webhook.remove_file('attachment://file1.png')
 
             with open("images/currentLevel.png", "rb") as f: 
@@ -90,7 +91,12 @@ while True:
         win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
         pyautogui.keyDown('s'); time.sleep(0.1)
         pyautogui.keyUp('s'); time.sleep(1)
-    
+        pyautogui.keyDown('tab'); time.sleep(1)
+        mute_bubble = functions.locateCenter('images/ui/mute_bubble.png', regions.tab_menu, default_confidence)
+        if mute_bubble != None:
+            functions.click("mute_bubble [" + str(mute_bubble) + "]", mute_bubble)
+        pyautogui.keyUp('tab')   
+
     endgame_summary = functions.locateCenter('images/ui/match_summary.png', regions.endgame_top, default_confidence)
     if endgame_summary != None:
         pyautogui.keyDown('escape'); time.sleep(0.2)
