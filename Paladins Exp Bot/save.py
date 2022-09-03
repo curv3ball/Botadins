@@ -70,7 +70,7 @@ while True:
             im.save("images/currentLevel.png")
 
             webhook = DiscordWebhook(
-                url = 'https://discord.com/api/webhooks/1014427274621239316/96JMPrJXduiuPhZEUFl39iAWjWuWihPLJuSi_gMAF4fvH6SsXwwi6jBS_unSqL5HqnCu', 
+                url = '', 
                 rate_limit_retry=True, 
                 )
             
