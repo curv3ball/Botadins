@@ -5,7 +5,7 @@ import images
 
 webhook_url = ""
 
-file = open('webhook.txt')
+file = open(os.path.dirname(__file__) + '/../webhook.txt')
 for line in file:
     print("set wehook_url to " + line)
     webhook_url = line
