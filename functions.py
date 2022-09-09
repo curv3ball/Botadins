@@ -5,11 +5,10 @@ import images
 
 webhook_url = ""
 
-try:
-    with open("settings.txt") as f:
-        contents = f.read()
-        webhook_url = contents
-except: print("error setting up webhook")
+file = open('webhook.txt')
+for line in file:
+    print("set wehook_url to " + line)
+    webhook_url = line
 
 webhook = DiscordWebhook(url=webhook_url, rate_limit_retry = True)
 default_confidence = 0.9
