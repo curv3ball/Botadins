@@ -1,5 +1,13 @@
-from imports import *
+import os
+import win32api
+import win32con
+import time
+import ctypes
+import sys
+import threading
+import multiprocessing
 import functions
+import keyboard
 
 if __name__ == '__main__':
     Play = threading.Thread(target=functions.play)
@@ -13,8 +21,6 @@ if __name__ == '__main__':
     ChampionSelect.start()
     SpawnCharacter.start()
     AntiAFK.start()
- 
-    os.system("cls")
 
     print("______       _            _ _           ")
     print("| ___ \     | |          | (_)          ")
