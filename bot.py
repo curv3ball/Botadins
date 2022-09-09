@@ -30,5 +30,4 @@ if __name__ == '__main__':
         ChampionSelect.join()
         SpawnCharacter.join()
         AntiAFK.join()
-        functions.closeBot()
         sys.exit(0)
