@@ -1,7 +1,17 @@
-from turtle import home
 from imports import *
 import regions
 import images
+import os
+import win32api
+import win32con
+import time
+import ctypes
+import sys
+import threading
+import multiprocessing
+import keyboard
+import pyautogui
+from discord_webhook import *
 
 webhook_url = ""
 
