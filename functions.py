@@ -1,4 +1,3 @@
-from imports import *
 import regions
 import images
 import os
