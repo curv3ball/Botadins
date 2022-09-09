@@ -19,10 +19,6 @@ lastUpdate = 0
 def currentTime():
     return (time.strftime("%I:%M %p"))
 
-def closeBot():
-    ctypes.windll.user32.MessageBoxW(0, "The bot has been stopped!", "Botadins", 0)
-    sys.exit(0)
-
 def mouseMove(x, y):
     win32api.SetCursorPos((x, y))
 
