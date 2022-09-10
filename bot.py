@@ -37,22 +37,21 @@ def mouseClick(msg, a):
     time.sleep(safeSleep)
 
 def play():
-    confidence = default_confidence
     
-    searching = pyautogui.locateCenterOnScreen(images.searching, (1045, 115, 70, 50), confidence)
+    searching = pyautogui.locateCenterOnScreen(images.searching, region=(1045, 115, 70, 50), confidence = default_confidence)
 
     if searching != None:
         return
 
-    champions_button = pyautogui.locateCenterOnScreen(images.champions, (65, 175, 500, 350), confidence)
+    champions_button = pyautogui.locateCenterOnScreen(images.champions, region=(65, 175, 500, 350), confidence = default_confidence)
         
-    play_button = pyautogui.locateCenterOnScreen(images.play_button, (65, 175, 500, 350), confidence)
+    play_button = pyautogui.locateCenterOnScreen(images.play_button, region=(65, 175, 500, 350), confidence = default_confidence)
 
     if champions_button != None and play_button != None:
         print("clicking champions_button")
         mouseClick("champions_button", champions_button)
 
-        evie = pyautogui.locateOnScreen(images.evieSmall, (65, 240, 1000, 625), 0.7)
+        evie = pyautogui.locateOnScreen(images.evieSmall, region=(65, 240, 1000, 625), confidence = 0.7)
 
         if evie != None:
             print("sending discord webhook")
@@ -83,7 +82,7 @@ def play():
 
         time.sleep(safeSleep)
 
-        play_button = pyautogui.locateCenterOnScreen(images.play_button, (65, 175, 500, 350), confidence)
+        play_button = pyautogui.locateCenterOnScreen(images.play_button, region=(65, 175, 500, 350), confidence = default_confidence)
 
         if play_button != None:
             print("clicking play_button")
