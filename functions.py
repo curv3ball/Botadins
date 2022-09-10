@@ -55,7 +55,7 @@ def play():
         
         champions_button = None
         play_button = None
-        
+
         try: champions_button = locateCenter(images.champions, regions.main_menu, confidence)
         except: print("failed to run locateCenter() on champions_button")
         
@@ -107,6 +107,9 @@ def play():
 def startMatch():
     confidence = default_confidence
     if not keyboard.is_pressed("delete"):
+        gamemode_top = None
+        gamemode_bottom = None
+        
         try: gamemode_top = locateCenter(images.training_gamemode, regions.gamemode_select_top, confidence)
         except: print("failed to run locateCenter() on gamemode_top")
 
@@ -124,6 +127,9 @@ def startMatch():
 def lockChampion():
     confidence = default_confidence
     if not keyboard.is_pressed("delete"):
+        champion_select = None
+        champion_lock = None
+
         try: champion_select = locateCenter(images.evieChampSelect, regions.champion_select, confidence)
         except: print("failed to run locateCenter() on champion_select")
         
@@ -141,6 +147,10 @@ def lockChampion():
 def spawnChampion():
     confidence = default_confidence
     if not keyboard.is_pressed("delete"):
+        talent_select = None
+        loadout_select = None
+        loadout_equip = None
+
         try: talent_select = locateCenter(images.evieTalent, regions.talent_select, confidence)
         except: print("failed to run locateCenter() on talent_select")
 
@@ -165,6 +175,11 @@ def spawnChampion():
 def antiAFK():
     confidence = default_confidence
     if not keyboard.is_pressed("delete"):
+        ability = None
+        home = None
+        purchase = None
+        ok = None
+
         try: ability = locateCenter(images.evieAbility, regions.abilities_select, confidence)
         except: print("failed to run locateCenter() on ability")
 
