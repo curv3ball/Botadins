@@ -52,7 +52,10 @@ def play():
 
         if searching != None:
             return
-
+        
+        champions_button = None
+        play_button = None
+        
         try: champions_button = locateCenter(images.champions, regions.main_menu, confidence)
         except: print("failed to run locateCenter() on champions_button")
         
