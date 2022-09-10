@@ -48,8 +48,8 @@ def locate(image, region, x = 0.9):
 
 def play():
     confidence = default_confidence
-    try: searching = locateCenter(images.searching, regions.searching, confidence)
-    except: print("failed to run locateCenter() on searching")
+    
+    searching = locateCenter(images.searching, regions.searching, confidence)
 
     if searching != None:
         return
