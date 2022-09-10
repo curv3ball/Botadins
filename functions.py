@@ -6,9 +6,28 @@ import win32con
 import time
 import ctypes
 import multiprocessing
-import keyboard
-import pyautogui
-from discord_webhook import *
+import subprocess
+import sys
+
+try: import keyboard
+except: print("failed to import keyboard module, installing it now"); os.system('pip install keyboard')
+
+try: import pyautogui
+except: print("failed to import pyautogui module, installing it now"); os.system('pip install pyautogui')
+
+try: import discord_webhook
+except: print("failed to import discord_webhook module, installing it now"); os.system('pip install discord_webhook')
+
+try: from discord_webhook import *
+except: print("discord_webhook not installed, try restarting this program")
+
+try: os.system('pip install Pillow --upgrade')
+except: print("failed to update Pillow")
+
+try: os.system('pip install opencv-python')
+except: print("failed to install opencv-python")
+
+os.system("cls")
 
 webhook_url = ""
 
@@ -20,7 +39,7 @@ webhook = DiscordWebhook(url=webhook_url, rate_limit_retry = True)
 default_confidence = 0.9
 activeResponse = None
 safeSleep = 2 - (0.025 * multiprocessing.cpu_count())
-lastUpdate = 0
+
 
 def currentTime():
     return (time.strftime("%I:%M %p"))
@@ -47,14 +66,14 @@ def play():
     confidence = default_confidence
     while not keyboard.is_pressed("delete"):
         searching = None
+        champions_button = None
+        play_button = None
+
         try: searching = locateCenter(images.searching, regions.searching, confidence)
         except: print("failed to run locateCenter() on searching")
 
         if searching != None:
             return
-        
-        champions_button = None
-        play_button = None
 
         try: champions_button = locateCenter(images.champions, regions.main_menu, confidence)
         except: print("failed to run locateCenter() on champions_button")
@@ -172,7 +191,7 @@ def spawnChampion():
             try: mouseClick("loadout_equip", loadout_equip)
             except: print("mouseClick failed [location= " + str(loadout_equip) + "]")
 
-def antiAFK():
+def Extra():
     confidence = default_confidence
     while not keyboard.is_pressed("delete"):
         ability = None
