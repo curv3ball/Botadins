@@ -5,8 +5,6 @@ import win32api
 import win32con
 import time
 import ctypes
-import sys
-import threading
 import multiprocessing
 import keyboard
 import pyautogui
@@ -16,7 +14,6 @@ webhook_url = ""
 
 file = open(os.path.dirname(__file__) + '/../webhook.txt')
 for line in file:
-    print("set wehook_url to " + line)
     webhook_url = line
 
 webhook = DiscordWebhook(url=webhook_url, rate_limit_retry = True)
@@ -48,13 +45,13 @@ def locate(image, region, x = 0.9):
 
 def play():
     confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
+    if not keyboard.is_pressed("delete"):
         searching = None
         try: searching = locateCenter(images.searching, regions.searching, confidence)
         except: print("failed to run locateCenter() on searching")
 
         if searching != None:
-            continue
+            return
 
         try: champions_button = locateCenter(images.champions, regions.main_menu, confidence)
         except: print("failed to run locateCenter() on champions_button")
@@ -66,11 +63,11 @@ def play():
             try: mouseClick("champions_button", champions_button)
             except: print("mouseClick failed [location= " + str(champions_button) + "]")
 
-            try: androxus = locate(images.androxusSmall, regions.champions, 0.7)
-            except: print("failed to run locate() on androxus")
+            try: evie = locate(images.evieSmall, regions.champions, 0.7)
+            except: print("failed to run locate() on evie")
 
-            if androxus != None:
-                championSnapshot = pyautogui.screenshot(region=(androxus[0] - 5, androxus[1] - 3, 100, 100))
+            if evie != None:
+                championSnapshot = pyautogui.screenshot(region=(evie[0] - 5, evie[1] - 3, 100, 100))
                 championSnapshot.save(images.currentLevel)
                 profileSnapshot = pyautogui.screenshot(region=(regions.player_profile))
                 profileSnapshot.save(images.currentProfile)
@@ -106,7 +103,7 @@ def play():
 
 def startMatch():
     confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
+    if not keyboard.is_pressed("delete"):
         try: gamemode_top = locateCenter(images.training_gamemode, regions.gamemode_select_top, confidence)
         except: print("failed to run locateCenter() on gamemode_top")
 
@@ -123,8 +120,8 @@ def startMatch():
 
 def lockChampion():
     confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        try: champion_select = locateCenter(images.androxusChampSelect, regions.champion_select, confidence)
+    if not keyboard.is_pressed("delete"):
+        try: champion_select = locateCenter(images.evieChampSelect, regions.champion_select, confidence)
         except: print("failed to run locateCenter() on champion_select")
         
         if champion_select != None:
@@ -140,15 +137,15 @@ def lockChampion():
 
 def spawnChampion():
     confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        try: talent_select = locateCenter(images.androxusTalent, regions.talent_select, confidence)
+    if not keyboard.is_pressed("delete"):
+        try: talent_select = locateCenter(images.evieTalent, regions.talent_select, confidence)
         except: print("failed to run locateCenter() on talent_select")
 
         if talent_select != None:
             try: mouseClick("talent_select", talent_select)
             except: print("mouseClick failed [location= " + str(talent_select) + "]")
 
-        try: loadout_select = locateCenter(images.androxusCard, regions.loadout_select, confidence)
+        try: loadout_select = locateCenter(images.evieCard, regions.loadout_select, confidence)
         except: print("failed to run locateCenter() on loadout_select")
 
         if loadout_select != None:
@@ -164,8 +161,8 @@ def spawnChampion():
 
 def antiAFK():
     confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        try: ability = locateCenter(images.androxusAbility, regions.abilities_select, confidence)
+    if not keyboard.is_pressed("delete"):
+        try: ability = locateCenter(images.evieAbility, regions.abilities_select, confidence)
         except: print("failed to run locateCenter() on ability")
 
         if ability != None:
