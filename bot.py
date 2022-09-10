@@ -88,3 +88,11 @@ def play():
         if play_button != None:
             print("clicking play_button")
             mouseClick("play_button", play_button)
+
+def main():
+    while not keyboard.is_pressed("delete"):
+        play()
+    
+    sys.exit()
+    
+main()
