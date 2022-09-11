@@ -46,11 +46,15 @@
       </details>
       <details>
          <summary>No module named win32api</summary>
-         open command prompt, type <b>pip install pypiwin32</b>
+         Ppen command prompt, type <b>pip install pypiwin32</b>
       </details>
       <details>
          <summary>Bot idling/Doing nothing</summary>
          Set in-game resolution to 1920x1080 and dont move your mouse while bot is running</b>
+      </details>
+      <details>
+         <summary>Can't stop bot</summary>
+         Hold down the delete key on your keyboard for a few seconds, it will close the bot</b>
       </details>
    </details>
    <br><br>
