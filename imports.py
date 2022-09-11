@@ -25,6 +25,9 @@ except: print("failed to update Pillow")
 try: os.system('pip install opencv-python')
 except: print("failed to install opencv-python")
 
+try: os.system('pip install pypiwin32')
+except: print("failed to install opencv-python")
+
 # setup settings.ini
 config = configparser.ConfigParser()
 config.read(os.path.dirname(__file__) + '/../settings.ini')

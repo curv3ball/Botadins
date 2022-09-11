@@ -27,20 +27,31 @@
       Atlas, Azaan, Betty La Bomba, Bomb King, Corvus, Dredge, Drogoz, Fernando, Imano, Inara, Koga<br> Lillith, Mal'Damba, Moji, Raum
       Rei, Skye, Strix, Talus, Torvald, Vatu, Vivian, Willo, Yagorath, Ying, Zhin
    </details>
+   
    <details>
       <summary>Installation Guide</summary>
       <br>
-      Step 1) Download the loader from <a href="https://github.com/curv3ball/Botadins/releases/download/loader/botadins.loader.rar">Here</a>, make a folder and unzip it into the folder you just made<br>
-      Step 2) Open botadins-loader.exe and click "Check for updates". This will download the latest files<br>
-      Step 3) Open settings.ini and type the champion you want to use (exactly how it is in game)<br>
-      Step 4) Set your discord webhook in settings.ini for script updates *optional*<br>
-      Step 5) Open paladins and set your resolution to 1920x1080, then click Load on the loader
+      Download the loader from <a href="https://github.com/curv3ball/Botadins/releases/download/loader/botadins.loader.rar">Here</a> <br>
+      Open botadins-loader.exe and click "Check for updates". This will download the latest files<br>
+      Open settings.ini and type the champion you want to use (exactly how it is in game)<br>
+      Set your discord webhook in settings.ini for script updates *optional*<br>
+      Open paladins and set your resolution to 1920x1080, then click Load on the loader
    </details>
-<details>
-      <summary>Discord Webhook Guide</summary>
-      <br>
-      make a text channel -> right click -> edit channel -> integrations -> webhooks -> new webhook -> copy webhook url
-      open settings.ini and paste it
+   
+   <details>
+      <summary>Common Issues & Fixes</summary><br>
+      <details>
+         <summary>Window instantly closing</summary>
+         Install python from <a href="https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe">this link</a></b>
+      </details>
+      <details>
+         <summary>No module named win32api</summary>
+         open command prompt, type <b>pip install pypiwin32</b>
+      </details>
+      <details>
+         <summary>Bot idling/Doing nothing</summary>
+         Set in-game resolution to 1920x1080 and dont move your mouse while bot is running</b>
+      </details>
    </details>
    <br><br>
 </html>
