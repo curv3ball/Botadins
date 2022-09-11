@@ -8,6 +8,7 @@ import ctypes
 import multiprocessing
 import subprocess
 import sys
+import datetime
 
 try: import keyboard
 except: print("failed to import keyboard module, installing it now"); os.system('pip install keyboard')
@@ -47,20 +48,39 @@ def currentTime():
 def mouseMove(x, y):
     win32api.SetCursorPos((x, y))
 
-def mouseClick(msg, a):
-    print("clicking " + msg + " @ " + str(a))
-    mouseMove(a[0], a[1])
-    time.sleep(0.1)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
-    time.sleep(0.1)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
-    time.sleep(safeSleep)
+# standard mouse_event
+def mouseClick(msg, a): log(msg); win32api.SetCursorPos((a[0],a[1])); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0); time.sleep(0.2); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
 
-def locateCenter(image, region, x = 0.9):
-    return pyautogui.locateCenterOnScreen(image, region = (region), confidence = x)
 
-def locate(image, region, x = 0.9):
-    return pyautogui.locateOnScreen(image, region = (region), confidence = x)
+# logs to file
+def log(msg):
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    x = open("logs.txt", "a")
+    x.write("[" + current_time + "] " + str(msg) + "\n")
+    lambda: os.system('cls')
+    print(str(msg))
+
+# kills paladins.exe and restart it via steam
+def restartGame():
+    subprocess.call("TASKKILL /F /IM Paladins.exe", shell=True)
+    time.sleep(5)
+    subprocess.run("start steam://run/444090", shell=True)
+    start = time.time()
+
+def locateCenter(image, region, x = 0.7):
+    return pyautogui.locateCenterOnScreen(
+        image, 
+        region=(region), 
+        confidence = x
+    )
+
+def locate(image, region, x = 0.7):
+    return pyautogui.locateOnScreen(
+        image,
+        region = (region),
+        confidence = x
+    )
 
 def play():
     confidence = default_confidence
@@ -202,7 +222,7 @@ def Extra():
         ok = None
 
         try: spawned = locateCenter(images.viiSpawned, regions.spawned, 0.7)
-        except: print("failed to run locateCenter() on ability");
+        except: print("failed to run locateCenter() on ability")
         
         if spawned != None:
             try:
@@ -225,9 +245,9 @@ def Extra():
         purchase = pyautogui.locateCenterOnScreen(images.purchase, confidence = default_confidence)
         if purchase != None:
             try: mouseClick("purchase", purchase)
-            except: print("mouseClick failed [location= " + str(purchase) + "]")
+            except: print("mouseClickw failed [location= " + str(purchase) + "]")
 
         ok = pyautogui.locateCenterOnScreen(images.ok, confidence = default_confidence)
         if ok != None:
             try: mouseClick("ok", ok)
-            except: print("mouseClick failed [location= " + str(ok) + "]")
+            except: print("mouseClick failed [wlocation= " + str(ok) + "]")
