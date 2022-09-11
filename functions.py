@@ -85,11 +85,11 @@ def play():
             try: mouseClick("champions_button", champions_button)
             except: print("mouseClick failed [location= " + str(champions_button) + "]")
 
-            try: androxus = locate(images.androxusSmall, regions.champions, 0.7)
-            except: print("failed to run locate() on androxus")
+            try: vii = locate(images.viiSmall, regions.champions, 0.7)
+            except: print("failed to run locate() on vii")
 
-            if androxus != None:
-                championSnapshot = pyautogui.screenshot(region=(androxus[0] - 5, androxus[1] - 3, 100, 100))
+            if vii != None:
+                championSnapshot = pyautogui.screenshot(region=(vii[0] - 5, vii[1] - 3, 100, 100))
                 championSnapshot.save(images.currentLevel)
                 profileSnapshot = pyautogui.screenshot(region=(regions.player_profile))
                 profileSnapshot.save(images.currentProfile)
@@ -149,7 +149,7 @@ def lockChampion():
         champion_select = None
         champion_lock = None
 
-        try: champion_select = locateCenter(images.androxusChampSelect, regions.champion_select, confidence)
+        try: champion_select = locateCenter(images.viiChampSelect, regions.champion_select, confidence)
         except: print("failed to run locateCenter() on champion_select")
         
         if champion_select != None:
@@ -170,14 +170,14 @@ def spawnChampion():
         loadout_select = None
         loadout_equip = None
 
-        try: talent_select = locateCenter(images.androxusTalent, regions.talent_select, confidence)
+        try: talent_select = locateCenter(images.viiTalent, regions.talent_select, confidence)
         except: print("failed to run locateCenter() on talent_select")
 
         if talent_select != None:
             try: mouseClick("talent_select", talent_select)
             except: print("mouseClick failed [location= " + str(talent_select) + "]")
 
-        try: loadout_select = locateCenter(images.androxusCard, regions.loadout_select, confidence)
+        try: loadout_select = locateCenter(images.viiCard, regions.loadout_select, confidence)
         except: print("failed to run locateCenter() on loadout_select")
 
         if loadout_select != None:
@@ -201,7 +201,7 @@ def Extra():
         purchase = None
         ok = None
 
-        try: spawned = locateCenter(images.androxusSpawned, regions.spawned, 0.7)
+        try: spawned = locateCenter(images.viiSpawned, regions.spawned, 0.7)
         except: print("failed to run locateCenter() on ability");
         
         if spawned != None:
