@@ -1,12 +1,12 @@
 <html>
    <p align="center">
-      <a href="https://github.com/curv3ball/snapbot">
+      <a href="https://github.com/curv3ball/Botadins">
       <img src="https://github.com/curv3ball/Botadins/blob/main/images/logo.png?raw=true" alt="Logo" width="300" height="300">
       </a>
-   <h2 align="center">
+   <h2>
       A python-based image recognition script designed for the game <a href="https://www.paladins.com">Paladins</a>
    </h2>
-   <h4 align="center">
+   <h4>
       The purpose of this script is to farm Gold, XP and Champion Mastery through automation.<br>
       Modules: <a href="https://pypi.org/project/PyAutoGUI/">PyAutoGUI</a>, 
       <a href="https://pypi.org/project/opencv-python/">OpenCV</a>, 
@@ -15,19 +15,19 @@
       <a href="https://pypi.org/project/discord-webhook/">DiscordWebhook</a> 
       <br> <br> <br>
    </h4>
-   <details align="center">
+   <details>
       <summary>Supported Champions</summary>
       <br>
       Androxus, Ash, Barik, Buck, Cassie, Evie, Furia, Grohk, Grover, IO, Jenos, Khan, Kinessa, Lex<br> Lian, Maeve, Makoa, Octavia
       Pip, Ruckus, Saati, Seris, Sha Lin, Terminus, Tiberius, Tyra, VII, Viktor, Vora
    </details>
-   <details align="center">
+   <details>
       <summary>Unsupported Champions</summary>
       <br>
       Atlas, Azaan, Betty La Bomba, Bomb King, Corvus, Dredge, Drogoz, Fernando, Imano, Inara, Koga<br> Lillith, Mal'Damba, Moji, Raum
       Rei, Skye, Strix, Talus, Torvald, Vatu, Vivian, Willo, Yagorath, Ying, Zhin
    </details>
-   <details align="center">
+   <details>
       <summary>Installation Guide</summary>
       <br>
       Step 1) Download the loader from <a href="https://github.com/curv3ball/Botadins/releases/download/loader/botadins.loader.rar">Here</a>, make a folder and unzip it into the folder you just made<br>
@@ -36,4 +36,9 @@
       Step 4) Set your discord webhook in settings.ini for script updates *optional*<br>
       Step 5) Open paladins and set your resolution to 1920x1080, then click Load on the loader
    </details>
+   <br><br>
 </html>
+
+![](https://img.shields.io/github/downloads/curv3ball/botadins/total?color=blue&logo=download-widget)
+![](https://img.shields.io/github/commit-activity/m/curv3ball/botadins?color=blue&label=updates)
+![](https://img.shields.io/github/last-commit/curv3ball/botadins?color=blue&label=last%20update)
