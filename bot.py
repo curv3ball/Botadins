@@ -2,6 +2,7 @@ import functions
 from imports import *
  
 if __name__ == "__main__":
+    functions.watermark()
     while not keyboard.is_pressed("delete"):
         functions.champion_select()
         functions.play_game()
