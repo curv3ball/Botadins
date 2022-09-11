@@ -46,7 +46,7 @@
       </details>
       <details>
          <summary>No module named win32api</summary>
-         Ppen command prompt, type <b>pip install pypiwin32</b>
+         Open command prompt, type <b>pip install pypiwin32</b>
       </details>
       <details>
          <summary>Bot idling/Doing nothing</summary>
