@@ -1,0 +1,7 @@
+moving mouse and clicking @ Point(x=230, y=304)
+moving mouse and clicking @ Point(x=689, y=214)
+moving mouse and clicking @ Point(x=844, y=264)
+moving mouse and clicking @ Point(x=49, y=44)
+moving mouse and clicking @ Point(x=199, y=247)
+moving mouse and clicking @ Point(x=1000, y=83)
+bot stopped

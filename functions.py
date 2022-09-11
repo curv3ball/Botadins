@@ -15,6 +15,7 @@ def watermark():
     print(" \____/ \___/ \__\__,_|\__,_|_|_| |_|___/  " + version + " by curv3#0984\n\n")
 
 def log(msg):
+    global logCount
     logCount += 1
     if logCount > 15:
         watermark()
