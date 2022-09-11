@@ -195,6 +195,7 @@ def Extra():
     confidence = default_confidence
     while not keyboard.is_pressed("delete"):
         ability = None
+        ability2 = None
         home = None
         purchase = None
         ok = None
@@ -202,7 +203,10 @@ def Extra():
         try: ability = locateCenter(images.evieAbility, regions.abilities_select, confidence)
         except: print("failed to run locateCenter() on ability")
 
-        if ability != None:
+        try: ability2 = locateCenter(images.evieAbility, regions.abilities_select2, confidence)
+        except: print("failed to run locateCenter() on ability")
+
+        if ability != None or ability2 != None:
             try: 
                 pyautogui.keyDown('w'); time.sleep(0.1)
                 pyautogui.keyUp('w'); time.sleep(0.1)
