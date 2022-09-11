@@ -39,7 +39,7 @@ webhook = DiscordWebhook(url=webhook_url, rate_limit_retry = True)
 default_confidence = 0.9
 activeResponse = None
 safeSleep = 2 - (0.025 * multiprocessing.cpu_count())
-
+championSpawned = False
 
 def currentTime():
     return (time.strftime("%I:%M %p"))
@@ -85,11 +85,11 @@ def play():
             try: mouseClick("champions_button", champions_button)
             except: print("mouseClick failed [location= " + str(champions_button) + "]")
 
-            try: evie = locate(images.evieSmall, regions.champions, 0.7)
-            except: print("failed to run locate() on evie")
+            try: androxus = locate(images.androxusSmall, regions.champions, 0.7)
+            except: print("failed to run locate() on androxus")
 
-            if evie != None:
-                championSnapshot = pyautogui.screenshot(region=(evie[0] - 5, evie[1] - 3, 100, 100))
+            if androxus != None:
+                championSnapshot = pyautogui.screenshot(region=(androxus[0] - 5, androxus[1] - 3, 100, 100))
                 championSnapshot.save(images.currentLevel)
                 profileSnapshot = pyautogui.screenshot(region=(regions.player_profile))
                 profileSnapshot.save(images.currentProfile)
@@ -149,7 +149,7 @@ def lockChampion():
         champion_select = None
         champion_lock = None
 
-        try: champion_select = locateCenter(images.evieChampSelect, regions.champion_select, confidence)
+        try: champion_select = locateCenter(images.androxusChampSelect, regions.champion_select, confidence)
         except: print("failed to run locateCenter() on champion_select")
         
         if champion_select != None:
@@ -170,14 +170,14 @@ def spawnChampion():
         loadout_select = None
         loadout_equip = None
 
-        try: talent_select = locateCenter(images.evieTalent, regions.talent_select, confidence)
+        try: talent_select = locateCenter(images.androxusTalent, regions.talent_select, confidence)
         except: print("failed to run locateCenter() on talent_select")
 
         if talent_select != None:
             try: mouseClick("talent_select", talent_select)
             except: print("mouseClick failed [location= " + str(talent_select) + "]")
 
-        try: loadout_select = locateCenter(images.evieCard, regions.loadout_select, confidence)
+        try: loadout_select = locateCenter(images.androxusCard, regions.loadout_select, confidence)
         except: print("failed to run locateCenter() on loadout_select")
 
         if loadout_select != None:
@@ -191,23 +191,22 @@ def spawnChampion():
             try: mouseClick("loadout_equip", loadout_equip)
             except: print("mouseClick failed [location= " + str(loadout_equip) + "]")
 
+        championSpawned = True
+
 def Extra():
     confidence = default_confidence
     while not keyboard.is_pressed("delete"):
-        ability = None
-        ability2 = None
+        spawned = None
         home = None
         purchase = None
         ok = None
 
-        try: ability = locateCenter(images.evieAbility, regions.abilities_select, confidence)
-        except: print("failed to run locateCenter() on ability")
-
-        try: ability2 = locateCenter(images.evieAbility, regions.abilities_select2, confidence)
-        except: print("failed to run locateCenter() on ability")
-
-        if ability != None or ability2 != None:
-            try: 
+        try: spawned = locateCenter(images.androxusSpawned, regions.spawned, 0.7)
+        except: print("failed to run locateCenter() on ability");
+        
+        if spawned != None:
+            try:
+                print("afking")
                 pyautogui.keyDown('w'); time.sleep(0.1)
                 pyautogui.keyUp('w'); time.sleep(0.1)
                 win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)

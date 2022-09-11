@@ -41,12 +41,10 @@ if __name__ == '__main__':
     print("\____/ \___/ \__\__,_|\__,_|_|_| |_|___/  " + version + " by curv3#0984")
     print("processor is set to '" + str(functions.safeSleep) + "' to account for your cpu count of '" + str(multiprocessing.cpu_count()) + "'\n\n")
 
-
-    while not keyboard.is_pressed("delete"):
+    while keyboard.is_pressed("delete"):
         Play.join()
         BotTDM.join()
         ChampionSelect.join()
         SpawnCharacter.join()
         Extra.join()
-    
-    sys.exit(0)
+        sys.exit(0)
