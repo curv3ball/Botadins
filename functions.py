@@ -1,253 +1,219 @@
-import regions
-import images
-import os
-import win32api
-import win32con
-import time
-import ctypes
-import multiprocessing
-import subprocess
-import sys
-import datetime
+from imports import *
 
-try: import keyboard
-except: print("failed to import keyboard module, installing it now"); os.system('pip install keyboard')
+version = "2.8.7"
+default_confidence = 0.8
+response = None
+logCount = 0
 
-try: import pyautogui
-except: print("failed to import pyautogui module, installing it now"); os.system('pip install pyautogui')
+def watermark():
+    os.system("cls")
+    print(" ______       _            _ _           ")
+    print(" | ___ \     | |          | (_)          ")
+    print(" | |_/ / ___ | |_ __ _  __| |_ _ __  ___ ")
+    print(" | ___ \/ _ \| __/ _` |/ _` | | '_ \/ __|")
+    print(" | |_/ / (_) | || (_| | (_| | | | | \__ " + '\\')
+    print(" \____/ \___/ \__\__,_|\__,_|_|_| |_|___/  " + version + " by curv3#0984\n\n")
 
-try: import discord_webhook
-except: print("failed to import discord_webhook module, installing it now"); os.system('pip install discord_webhook')
-
-try: from discord_webhook import *
-except: print("discord_webhook not installed, try restarting this program")
-
-try: os.system('pip install Pillow --upgrade')
-except: print("failed to update Pillow")
-
-try: os.system('pip install opencv-python')
-except: print("failed to install opencv-python")
-
-os.system("cls")
-
-webhook_url = ""
-
-file = open(os.path.dirname(__file__) + '/../webhook.txt')
-for line in file:
-    webhook_url = line
-
-webhook = DiscordWebhook(url=webhook_url, rate_limit_retry = True)
-default_confidence = 0.9
-activeResponse = None
-safeSleep = 2 - (0.025 * multiprocessing.cpu_count())
-championSpawned = False
-
-def currentTime():
-    return (time.strftime("%I:%M %p"))
+def log(msg):
+    logCount += 1
+    if logCount > 15:
+        watermark()
+    x = open("logs.txt", "a")
+    x.write(str(msg) + "\n")
+    print(" " + str(msg))
 
 def mouseMove(x, y):
-    win32api.SetCursorPos((x, y))
+    for n in range(10):
+        try:
+            w = int(pyautogui.position()[0] + (x - pyautogui.position()[0]) / 10 * n)
+            h = int(pyautogui.position()[1] + (y - pyautogui.position()[1]) / 10 * n)
+            win32api.SetCursorPos((w, h))
+        except: continue
+        time.sleep(0.05/10)
 
-# standard mouse_event
-def mouseClick(msg, a): log(msg); win32api.SetCursorPos((a[0],a[1])); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0); time.sleep(0.2); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+def mouseMoveClick(vector):
+    log("moving mouse and clicking @ " + str(vector))
+    mouseMove(vector[0], vector[1])
+    try:
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
+        time.sleep(0.20)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+    except: return
+    time.sleep(1)
 
+def champion_select():
+    champion_frame = None
+    lock_in = None
 
-# logs to file
-def log(msg):
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    x = open("logs.txt", "a")
-    x.write("[" + current_time + "] " + str(msg) + "\n")
-    lambda: os.system('cls')
-    print(str(msg))
+    try: champion_frame = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/champion_select.png', region=(regions.champion_select), confidence = default_confidence)
+    except: return
 
-# kills paladins.exe and restart it via steam
-def restartGame():
-    subprocess.call("TASKKILL /F /IM Paladins.exe", shell=True)
-    time.sleep(5)
-    subprocess.run("start steam://run/444090", shell=True)
-    start = time.time()
+    if champion_frame != None:
+        mouseMoveClick(champion_frame)
 
-def locateCenter(image, region, x = 0.7):
-    return pyautogui.locateCenterOnScreen(
-        image, 
-        region=(region), 
-        confidence = x
-    )
+    try: lock_in = pyautogui.locateCenterOnScreen('images/ui/lock_in.png', region=(regions.lock_in), confidence = default_confidence)
+    except: return
 
-def locate(image, region, x = 0.7):
-    return pyautogui.locateOnScreen(
-        image,
-        region = (region),
-        confidence = x
-    )
+    if lock_in != None:
+        mouseMoveClick(lock_in)
 
-def play():
-    confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        searching = None
-        champions_button = None
-        play_button = None
+def play_game():
+    play_button = None
+    champions_button = None  
+    try: play_button = pyautogui.locateCenterOnScreen('images/ui/play_button.png', region=(regions.main_menu), confidence = default_confidence)
+    except: return
 
-        try: searching = locateCenter(images.searching, regions.searching, confidence)
-        except: print("failed to run locateCenter() on searching")
+    try: champions_button = pyautogui.locateCenterOnScreen('images/ui/champions_button.png', region=(regions.main_menu), confidence = default_confidence)
+    except: return
 
-        if searching != None:
-            return
+    if play_button != None and champions_button != None:
+        if webhook.find('https://discord.com/api/webhooks/') != -1:
+            global response
 
-        try: champions_button = locateCenter(images.champions, regions.main_menu, confidence)
-        except: print("failed to run locateCenter() on champions_button")
+            mouseMoveClick(champions_button)
+
+            scroll = None
+            try: scroll = pyautogui.locateCenterOnScreen('images/ui/double_arrow.png', region=(regions.double_arrow), confidence = default_confidence)
+            except: return
+
+            if scroll != None:
+                mouseMoveClick(scroll)
+
+                mastery_filter = None
+                try: mastery_filter = pyautogui.locateCenterOnScreen('images/ui/mastery_filter.png', region=(regions.mastery_filter), confidence = default_confidence)
+                except: return
+
+                if mastery_filter != None:
+                    mouseMoveClick(mastery_filter)
+
+                    role_filter = None
+                    try: role_filter = pyautogui.locateCenterOnScreen('images/ui/role_filter.png', region=(regions.role_filter), confidence = default_confidence)
+                    except: return
+
+                    if role_filter != None:
+                        mouseMoveClick(role_filter)
+
+                    mastery = None
+                    try: mastery = pyautogui.locateOnScreen('images/champions/' + champion.lower() + '/mastery.png', region=(regions.champion_mastery), confidence = 0.7)
+                    except: print("failed getting " + champion.lower() + " mastery")
+
+                    if mastery != None:
+                        screenshot1 = pyautogui.screenshot(region=(mastery[0] - 3, mastery[1] - 3, 100, 100))
+                        screenshot2 = pyautogui.screenshot(region=(regions.player_profile))
+                        screenshot1.save('images/champions/' + champion + '/current_mastery.png')
+                        screenshot2.save('images/current_profile_level.png')
+
+                        wh = DiscordWebhook( url = webhook,  rate_limit_retry = True)
+                        wh.remove_file('attachment://file1.png')
+                        wh.remove_file('attachment://file2.png')
+
+                        with open('images/champions/' + champion + '/current_mastery.png', "rb") as f: 
+                            wh.add_file(file = f.read(), filename = "file1.png")
+
+                        with open('images/current_profile_level.png', "rb") as b:
+                            wh.add_file(file = b.read(), filename = "file2.png")
+
+                        if response != None:
+                            wh.delete(response)
+
+                        response = wh.execute()
+
+            close = None
+            try: close = pyautogui.locateCenterOnScreen('images/ui/menu_x.png', region=(regions.menu_x), confidence = default_confidence)
+            except: return
+
+            if close != None:
+                mouseMoveClick(close)
+                time.sleep(1)
+                mouseMoveClick(play_button)
+        else:
+            mouseMoveClick(play_button)
+                    
+def bot_tdm():
+    gamemode_top = None
+    gamemode_bottom = None
+
+    try: gamemode_top = pyautogui.locateCenterOnScreen('images/ui/training_gamemode.png', region=(regions.gamemode_select_top), confidence = default_confidence)
+    except: return
+
+    if gamemode_top != None:
+        mouseMoveClick(gamemode_top)
         
-        try: play_button = locateCenter(images.play_button, regions.main_menu, confidence)
-        except: print("failed to run locateCenter() on play_button")
+    try: gamemode_bottom = pyautogui.locateCenterOnScreen('images/ui/tdm_training.png', region=(regions.gamemode_select_bottom), confidence = default_confidence)
+    except: return
 
-        if champions_button != None and play_button != None:
-            try: mouseClick("champions_button", champions_button)
-            except: print("mouseClick failed [location= " + str(champions_button) + "]")
-
-            try: vii = locate(images.viiSmall, regions.champions, 0.7)
-            except: print("failed to run locate() on vii")
-
-            if vii != None:
-                championSnapshot = pyautogui.screenshot(region=(vii[0] - 5, vii[1] - 3, 100, 100))
-                championSnapshot.save(images.currentLevel)
-                profileSnapshot = pyautogui.screenshot(region=(regions.player_profile))
-                profileSnapshot.save(images.currentProfile)
-
-                webhook = DiscordWebhook(url = webhook_url, rate_limit_retry = True)
-                webhook.remove_file('attachment://file1.png')
-                webhook.remove_file('attachment://file2.png')
-
-                with open(images.currentLevel, "rb") as f:
-                    webhook.add_file(file=f.read(), filename="file1.png")
-
-                with open(images.currentProfile, "rb") as b:
-                    webhook.add_file(file=b.read(), filename="file2.png")
-
-                global activeResponse
-
-                if activeResponse != None:
-                    webhook.delete(activeResponse)
-
-                activeResponse = webhook.execute()
-
-            pyautogui.keyDown('escape'); time.sleep(0.1)
-            pyautogui.keyUp('escape'); time.sleep(1)
-
-            time.sleep(safeSleep)
-
-            try: play_button = locateCenter(images.play_button, regions.main_menu, confidence)
-            except: print("failed to run locateCenter() on play_button")
-
-            if play_button != None:
-                try: mouseClick("play_button", play_button)
-                except: print("mouseClick failed [location= " + str(play_button) + "]")
-
-def startMatch():
-    confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        gamemode_top = None
-        gamemode_bottom = None
+    if gamemode_bottom != None:
+        mouseMoveClick(gamemode_bottom)
         
-        try: gamemode_top = locateCenter(images.training_gamemode, regions.gamemode_select_top, confidence)
-        except: print("failed to run locateCenter() on gamemode_top")
+def spawn_champion():
+    if champion.lower() == "octavia":
+        passive = None
+        try: passive = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/team_passive.png', region=(regions.octavia_passive), confidence = 0.7)
+        except: return
+        if passive != None:
+            mouseMoveClick(passive)
 
-        if gamemode_top != None:
-            try: mouseClick("gamemode_top", gamemode_top)
-            except: print("mouseClick failed [location= " + str(gamemode_top) + "]")
+    talent = None
+    loadout = None
+    equip = None
 
-        try: gamemode_bottom = locateCenter(images.tdm_training, regions.gamemode_select_bottom, confidence)
-        except: print("failed to run locateCenter() on gamemode_bottom")
-        
-        if gamemode_bottom != None:
-            try: mouseClick("gamemode_bottom", gamemode_bottom)
-            except: print("mouseClick failed [location= " + str(gamemode_bottom) + "]")
+    try: talent = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/talent.png', region=(regions.talent_select), confidence = default_confidence)
+    except: return
 
-def lockChampion():
-    confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        champion_select = None
-        champion_lock = None
+    if talent != None:
+        mouseMoveClick(talent)
 
-        try: champion_select = locateCenter(images.viiChampSelect, regions.champion_select, confidence)
-        except: print("failed to run locateCenter() on champion_select")
-        
-        if champion_select != None:
-            try: mouseClick("champion_select", champion_select)
-            except: print("mouseClick failed [location= " + str(champion_select) + "]")
+    try: loadout = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/card_deck.png', region=(regions.loadout_select), confidence = default_confidence)
+    except: return
 
-        try: champion_lock = locateCenter(images.lock_in, regions.champion_select, confidence)
-        except: print("failed to run locateCenter() on champion_lock")
-        
-        if champion_lock != None:
-            try: mouseClick("champion_lock", champion_lock)
-            except: print("mouseClick failed [location= " + str(champion_lock) + "]")
+    if loadout != None:
+        mouseMoveClick(loadout)
 
-def spawnChampion():
-    confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        talent_select = None
-        loadout_select = None
-        loadout_equip = None
+    try: equip = pyautogui.locateCenterOnScreen('images/ui/equip.png', region=(regions.loadout_equip), confidence = default_confidence)
+    except: return
 
-        try: talent_select = locateCenter(images.viiTalent, regions.talent_select, confidence)
-        except: print("failed to run locateCenter() on talent_select")
+    if equip != None:
+        mouseMoveClick(equip)
 
-        if talent_select != None:
-            try: mouseClick("talent_select", talent_select)
-            except: print("mouseClick failed [location= " + str(talent_select) + "]")
+def anti_afk():
+    spawned = None
+    try: spawned = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/spawned.png', region=(regions.spawned), confidence = default_confidence)
+    except: return
 
-        try: loadout_select = locateCenter(images.viiCard, regions.loadout_select, confidence)
-        except: print("failed to run locateCenter() on loadout_select")
+    if spawned != None:
+        pyautogui.keyDown('w'); time.sleep(0.1)
+        pyautogui.keyUp('w'); time.sleep(0.1)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+        pyautogui.keyDown('s'); time.sleep(0.1)
+        pyautogui.keyUp('s'); time.sleep(1)
 
-        if loadout_select != None:
-            try: mouseClick("loadout_select", loadout_select)
-            except: print("mouseClick failed [location= " + str(loadout_select) + "]")
+def end_game():
+    summary = None
+    try: summary = pyautogui.locateCenterOnScreen('images/ui/match_summary.png', region=(regions.endgame_top), confidence = default_confidence)
+    except: return
 
-        try: loadout_equip = locateCenter(images.equip, regions.loadout_equip, confidence)
-        except: print("failed to run locateCenter() on loadout_equip")
+    if summary != None:
+        close = None
 
-        if loadout_equip != None:
-            try: mouseClick("loadout_equip", loadout_equip)
-            except: print("mouseClick failed [location= " + str(loadout_equip) + "]")
+        try: close = pyautogui.locateCenterOnScreen('images/ui/menu_x.png', region=(regions.menu_x), confidence = default_confidence)
+        except: return
 
-        championSpawned = True
+        if close != None:
+            mouseMoveClick(close)
 
-def Extra():
-    confidence = default_confidence
-    while not keyboard.is_pressed("delete"):
-        spawned = None
-        home = None
-        purchase = None
-        ok = None
+def misc():
+    purchase = None
+    ok = None
 
-        try: spawned = locateCenter(images.viiSpawned, regions.spawned, 0.7)
-        except: print("failed to run locateCenter() on ability")
-        
-        if spawned != None:
-            try:
-                print("afking")
-                pyautogui.keyDown('w'); time.sleep(0.1)
-                pyautogui.keyUp('w'); time.sleep(0.1)
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
-                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0); time.sleep(0.1); win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
-                pyautogui.keyDown('s'); time.sleep(0.1)
-                pyautogui.keyUp('s'); time.sleep(1)
-            except: print("failure running antiafk()")
+    try: purchase = pyautogui.locateCenterOnScreen('images/ui/purchase.png', confidence = default_confidence)
+    except: return
 
-        try: home = locateCenter(images.home, regions.home, 0.6)
-        except: print("failed to run locateCenter() on end_game")
+    if purchase != None:
+        mouseMoveClick(purchase)
 
-        if home != None:
-            try: mouseClick("home", home)
-            except: print("mouseClick failed [location= " + str(home) + "]")
+    try: ok = pyautogui.locateCenterOnScreen('images/ui/ok.png', confidence = default_confidence)
+    except: return
 
-        purchase = pyautogui.locateCenterOnScreen(images.purchase, confidence = default_confidence)
-        if purchase != None:
-            try: mouseClick("purchase", purchase)
-            except: print("mouseClickw failed [location= " + str(purchase) + "]")
-
-        ok = pyautogui.locateCenterOnScreen(images.ok, confidence = default_confidence)
-        if ok != None:
-            try: mouseClick("ok", ok)
-            except: print("mouseClick failed [wlocation= " + str(ok) + "]")
+    if ok != None:
+        mouseMoveClick(ok)
