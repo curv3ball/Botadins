@@ -36,6 +36,12 @@
       Step 4) Set your discord webhook in settings.ini for script updates *optional*<br>
       Step 5) Open paladins and set your resolution to 1920x1080, then click Load on the loader
    </details>
+<details>
+      <summary>Discord Webhook Guide</summary>
+      <br>
+      make a text channel -> right click -> edit channel -> integrations -> webhooks -> new webhook -> copy webhook url
+      open settings.ini and paste it
+   </details>
    <br><br>
 </html>
 
