@@ -51,7 +51,7 @@
       </details>
       <details>
          <summary>Bot idling/Doing nothing</summary>
-         Set in-game resolution to 1920x1080 and dont move your mouse while bot is running</b>
+         Set in-game resolution to 1920x1080 with borderless fullscreen and dont move your mouse while bot is running</b>
       </details>
       <details>
          <summary>Can't stop bot</summary>
