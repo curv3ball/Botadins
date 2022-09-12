@@ -42,7 +42,8 @@
       <summary>Common Issues & Fixes</summary><br>
       <details>
          <summary>Window instantly closing</summary>
-         Install python from <a href="https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe">this link</a></b>
+         Install python from <a href="https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe">this link</a></b><br>
+         !! MAKE SURE YOU PRESS ADD TO PATH ON THE PYTHON INSTALLER, ITS IMPORTANT !!
       </details>
       <details>
          <summary>No module named win32api</summary>
@@ -50,7 +51,7 @@
       </details>
       <details>
          <summary>Bot idling/Doing nothing</summary>
-         Set in-game resolution to 1920x1080 and dont move your mouse while bot is running</b>
+         Set in-game resolution to 1920x1080 with borderless fullscreen and dont move your mouse while bot is running</b>
       </details>
       <details>
          <summary>Can't stop bot</summary>
