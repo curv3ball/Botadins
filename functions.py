@@ -206,6 +206,7 @@ def end_game():
 def misc():
     purchase = None
     ok = None
+    ok2 = None
     close = None
 
     try: purchase = pyautogui.locateCenterOnScreen('images/ui/purchase.png', confidence = default_confidence)
@@ -219,6 +220,12 @@ def misc():
 
     if ok != None:
         mouseMoveClick(ok)
+
+    try: ok2 = pyautogui.locateCenterOnScreen('images/ui/ok2.png', confidence = default_confidence)
+    except: return
+
+    if ok2 != None:
+        mouseMoveClick(ok2)
 
     try: close = pyautogui.locateCenterOnScreen('images/ui/close.png', confidence = default_confidence)
     except: return
