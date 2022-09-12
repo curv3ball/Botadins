@@ -42,7 +42,8 @@
       <summary>Common Issues & Fixes</summary><br>
       <details>
          <summary>Window instantly closing</summary>
-         Install python from <a href="https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe">this link</a></b>
+         Install python from <a href="https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe">this link</a></b><br>
+         !! MAKE SURE YOU PRESS ADD TO PATH ON THE PYTHON INSTALLER, ITS IMPORTANT !!
       </details>
       <details>
          <summary>No module named win32api</summary>
