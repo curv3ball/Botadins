@@ -1,6 +1,6 @@
 from imports import *
 
-version = "2.8.7"
+version = "2.8.8"
 default_confidence = 0.8
 response = None
 logCount = 0
@@ -32,8 +32,8 @@ def mouseMove(x, y):
         except: continue
         time.sleep(0.05/10)
 
-def mouseMoveClick(vector):
-    log("moving mouse and clicking @ " + str(vector))
+def mouseMoveClick(vector, name = ""):
+    log("moving mouse and clicking " + name + " @ " + str(vector))
     mouseMove(vector[0], vector[1])
     try:
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
@@ -50,13 +50,13 @@ def champion_select():
     except: return
 
     if champion_frame != None:
-        mouseMoveClick(champion_frame)
+        mouseMoveClick(champion_frame, 'champion_frame')
 
     try: lock_in = pyautogui.locateCenterOnScreen('images/ui/lock_in.png', region=(regions.lock_in), confidence = default_confidence)
     except: return
 
     if lock_in != None:
-        mouseMoveClick(lock_in)
+        mouseMoveClick(lock_in, 'lock_in')
 
 def play_game():
     play_button = None
@@ -68,35 +68,35 @@ def play_game():
     except: return
 
     if play_button != None and champions_button != None:
+        
         if webhook.find('https://discord.com/api/webhooks/') != -1:
             global response
-
-            mouseMoveClick(champions_button)
+            mouseMoveClick(champions_button, 'champions_button')
 
             scroll = None
             try: scroll = pyautogui.locateCenterOnScreen('images/ui/double_arrow.png', region=(regions.double_arrow), confidence = default_confidence)
             except: return
 
             if scroll != None:
-                mouseMoveClick(scroll)
+                mouseMoveClick(scroll, 'scroll')
 
                 mastery_filter = None
                 try: mastery_filter = pyautogui.locateCenterOnScreen('images/ui/mastery_filter.png', region=(regions.mastery_filter), confidence = default_confidence)
                 except: return
 
                 if mastery_filter != None:
-                    mouseMoveClick(mastery_filter)
+                    mouseMoveClick(mastery_filter, 'mastery_filter')
 
                     role_filter = None
                     try: role_filter = pyautogui.locateCenterOnScreen('images/ui/role_filter.png', region=(regions.role_filter), confidence = default_confidence)
                     except: return
 
                     if role_filter != None:
-                        mouseMoveClick(role_filter)
+                        mouseMoveClick(role_filter, 'role_filter')
 
                     mastery = None
                     try: mastery = pyautogui.locateOnScreen('images/champions/' + champion.lower() + '/mastery.png', region=(regions.champion_mastery), confidence = 0.7)
-                    except: print("failed getting " + champion.lower() + " mastery")
+                    except: return
 
                     if mastery != None:
                         screenshot1 = pyautogui.screenshot(region=(mastery[0] - 3, mastery[1] - 3, 100, 100))
@@ -115,8 +115,10 @@ def play_game():
                             wh.add_file(file = b.read(), filename = "file2.png")
 
                         if response != None:
+                            log("deleting old webhook")
                             wh.delete(response)
 
+                        log("updating webhook")
                         response = wh.execute()
 
             close = None
@@ -124,11 +126,11 @@ def play_game():
             except: return
 
             if close != None:
-                mouseMoveClick(close)
+                mouseMoveClick(close, 'close')
                 time.sleep(1)
-                mouseMoveClick(play_button)
+                mouseMoveClick(play_button, 'play_button')
         else:
-            mouseMoveClick(play_button)
+            mouseMoveClick(play_button, 'play_button')
                     
 def bot_tdm():
     gamemode_top = None
@@ -138,21 +140,25 @@ def bot_tdm():
     except: return
 
     if gamemode_top != None:
-        mouseMoveClick(gamemode_top)
+        mouseMoveClick(gamemode_top, 'gamemode_top')
         
     try: gamemode_bottom = pyautogui.locateCenterOnScreen('images/ui/tdm_training.png', region=(regions.gamemode_select_bottom), confidence = default_confidence)
     except: return
 
     if gamemode_bottom != None:
-        mouseMoveClick(gamemode_bottom)
+        mouseMoveClick(gamemode_bottom, 'gamemode_bottom')
+
+    
         
 def spawn_champion():
+    # fix for octavia, she has a special screen
     if champion.lower() == "octavia":
         passive = None
+
         try: passive = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/team_passive.png', region=(regions.octavia_passive), confidence = 0.7)
         except: return
         if passive != None:
-            mouseMoveClick(passive)
+            mouseMoveClick(passive, 'passive')
 
     talent = None
     loadout = None
@@ -162,19 +168,19 @@ def spawn_champion():
     except: return
 
     if talent != None:
-        mouseMoveClick(talent)
+        mouseMoveClick(talent, 'talent')
 
     try: loadout = pyautogui.locateCenterOnScreen('images/champions/' + champion.lower() + '/card_deck.png', region=(regions.loadout_select), confidence = default_confidence)
     except: return
 
     if loadout != None:
-        mouseMoveClick(loadout)
+        mouseMoveClick(loadout, 'loadout')
 
     try: equip = pyautogui.locateCenterOnScreen('images/ui/equip.png', region=(regions.loadout_equip), confidence = default_confidence)
     except: return
 
     if equip != None:
-        mouseMoveClick(equip)
+        mouseMoveClick(equip, 'equip')
 
 def anti_afk():
     spawned = None
@@ -201,34 +207,41 @@ def end_game():
         except: return
 
         if close != None:
-            mouseMoveClick(close)
+            mouseMoveClick(close, 'close')
 
 def misc():
     purchase = None
     ok = None
     ok2 = None
     close = None
-
+    cancel = None
+    
     try: purchase = pyautogui.locateCenterOnScreen('images/ui/purchase.png', confidence = default_confidence)
     except: return
 
     if purchase != None:
-        mouseMoveClick(purchase)
+        mouseMoveClick(purchase, 'purchase')
 
     try: ok = pyautogui.locateCenterOnScreen('images/ui/ok.png', confidence = default_confidence)
     except: return
 
     if ok != None:
-        mouseMoveClick(ok)
+        mouseMoveClick(ok, 'ok')
 
     try: ok2 = pyautogui.locateCenterOnScreen('images/ui/ok2.png', confidence = default_confidence)
     except: return
 
     if ok2 != None:
-        mouseMoveClick(ok2)
+        mouseMoveClick(ok2, 'ok2')
 
     try: close = pyautogui.locateCenterOnScreen('images/ui/close.png', confidence = default_confidence)
     except: return
 
     if close != None:
-        mouseMoveClick(close)
+        mouseMoveClick(close, 'close')
+
+    try: cancel = pyautogui.locateCenterOnScreen('images/ui/cancel.png', confidence = default_confidence)
+    except: return
+
+    if cancel != None:
+        mouseMoveClick(cancel, 'cancel')
