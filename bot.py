@@ -1,7 +1,7 @@
 import functions
 from imports import *
 
-startTime = time.time()
+start_time = time.time()
 secondsToRun = 2100
 
 if __name__ == "__main__":
@@ -20,15 +20,12 @@ if __name__ == "__main__":
         functions.end_game()
         functions.misc()
         
-        endTime = time.time()
+        end_time = time.time()
 
-        secDif = int(endTime - startTime)
-        minDif = secDif / 60
+        time_difference = int(end_time - start_time)
+        min = int(secondsToRun) / 60
 
-        sec = int(secondsToRun)
-        min = sec / 60
-
-        if secDif >= secondsToRun:
+        if time_difference >= start_time:
             print(f"{int(min)} minutes have passed, restarting")
             subprocess.call("taskkill /IM Paladins.exe")
             time.sleep(5)
