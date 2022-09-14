@@ -1,18 +1,18 @@
 from imports import *
 
-version = "2.8.8"
+version = "2.9.0"
 default_confidence = 0.8
 response = None
 logCount = 0
 
 def watermark():
     os.system("cls")
-    print(" ______       _            _ _           ")
-    print(" | ___ \     | |          | (_)          ")
-    print(" | |_/ / ___ | |_ __ _  __| |_ _ __  ___ ")
-    print(" | ___ \/ _ \| __/ _` |/ _` | | '_ \/ __|")
-    print(" | |_/ / (_) | || (_| | (_| | | | | \__ " + '\\')
-    print(" \____/ \___/ \__\__,_|\__,_|_|_| |_|___/  " + version + " by curv3#0984\n\n")
+    print(f" ______       _            _ _           ")
+    print(f" | ___ \     | |          | (_)          ")
+    print(f" | |_/ / ___ | |_ __ _  __| |_ _ __  ___ ")
+    print(f" | ___ \/ _ \| __/ _` |/ _` | | '_ \/ __|")
+    print(f" | |_/ / (_) | || (_| | (_| | | | | \__ " + '\\')
+    print(f" \____/ \___/ \__\__,_|\__,_|_|_| |_|___/  {version} by curv3#0984\n\n")
 
 def log(msg):
     global logCount
@@ -20,8 +20,17 @@ def log(msg):
     if logCount > 15:
         watermark()
     x = open("logs.txt", "a")
-    x.write(str(msg) + "\n")
-    print(" " + str(msg))
+    x.write(msg + "\n")
+    print(f" {msg}")
+
+def gameRunning():
+    call = 'TASKLIST', '/FI', 'imagename eq %s' % 'Paladins.exe'
+    # use buildin check_output right away
+    output = subprocess.check_output(call).decode()
+    # check in last line for process name
+    last_line = output.strip().split('\r\n')[-1]
+    # because Fail message could be translated
+    return last_line.lower().startswith('Paladins.exe'.lower())
 
 def mouseMove(x, y):
     for n in range(10):
@@ -33,7 +42,7 @@ def mouseMove(x, y):
         time.sleep(0.05/10)
 
 def mouseMoveClick(vector, name = ""):
-    log("moving mouse and clicking " + name + " @ " + str(vector))
+    log(f"moving mouse and clicking {name} @ {str(vector)}")
     mouseMove(vector[0], vector[1])
     try:
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
@@ -115,10 +124,10 @@ def play_game():
                             wh.add_file(file = b.read(), filename = "file2.png")
 
                         if response != None:
-                            log("deleting old webhook")
+                            log(f"deleting old webhook")
                             wh.delete(response)
 
-                        log("updating webhook")
+                        log(f"updating webhook")
                         response = wh.execute()
 
             close = None

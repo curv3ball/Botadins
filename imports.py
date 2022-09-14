@@ -3,6 +3,7 @@ import regions
 import win32api
 import time
 import win32con
+import subprocess
 
 try: import pyautogui
 except: print("failed to import pyautogui module, installing it now"); os.system('pip install pyautogui')
