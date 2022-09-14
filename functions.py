@@ -215,7 +215,8 @@ def misc():
     ok2 = None
     close = None
     cancel = None
-    
+    continue_ = None
+
     try: purchase = pyautogui.locateCenterOnScreen('images/ui/purchase.png', confidence = default_confidence)
     except: return
 
@@ -245,3 +246,9 @@ def misc():
 
     if cancel != None:
         mouseMoveClick(cancel, 'cancel')
+
+    try: continue_ = pyautogui.locateCenterOnScreen('images/ui/continue.png', confidence = default_confidence)
+    except: return
+
+    if continue_ != None:
+        mouseMoveClick(continue_, 'continue')
