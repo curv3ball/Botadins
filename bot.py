@@ -8,14 +8,12 @@ debug = False
 
 if __name__ == "__main__":
     functions.watermark()
-    
-    _this = win32gui.GetForegroundWindow()
-    win32gui.ShowWindow(_this , win32con.SW_FORCEMINIMIZE)
 
     if not functions.gameRunning():
         subprocess.run("start steam://run/444090", shell=True)
-        time.sleep(5)
     
+    functions.hideConsole()
+
     champion_select = threading.Thread(target = functions.champion_select)
     play_game = threading.Thread(target = functions.play_game)
     bot_tdm = threading.Thread(target = functions.bot_tdm)
@@ -35,7 +33,8 @@ if __name__ == "__main__":
         time_difference = time.time() - start_time
 
         if debug:
-            print( f"count \t {time_difference}" )
+            #print( f"count \t {time_difference}" )
+            print( f"restarting in {int(secondsToRun - time_difference)} seconds")
 
         if time_difference >= secondsToRun:
             functions.log(f"killing Paladins.exe")

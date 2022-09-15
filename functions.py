@@ -35,6 +35,13 @@ def gameRunning():
     last_line = output.strip().split('\r\n')[-1]
     return last_line.lower().startswith('Paladins.exe'.lower())
 
+def hideConsole():
+    kernel32 = ctypes.WinDLL('kernel32')
+    user32 = ctypes.WinDLL('user32')
+    SW = 6
+    hWnd = kernel32.GetConsoleWindow()
+    user32.ShowWindow(hWnd, SW)
+
 def mouseMove(x, y):
     for n in range(10):
         try:

@@ -6,9 +6,7 @@ import win32con
 import subprocess
 import threading
 import win32gui
-
-_this = win32gui.GetForegroundWindow()
-win32gui.ShowWindow(_this , win32con.SW_FORCEMINIMIZE)
+import ctypes
 
 try: import pyautogui
 except: print("failed to import pyautogui module, installing it now"); os.system('pip install pyautogui')
