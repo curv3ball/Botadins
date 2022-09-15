@@ -9,6 +9,9 @@ debug = False
 if __name__ == "__main__":
     functions.watermark()
     
+    _this = win32gui.GetForegroundWindow()
+    win32gui.ShowWindow(_this , win32con.SW_FORCEMINIMIZE)
+
     if not functions.gameRunning():
         subprocess.run("start steam://run/444090", shell=True)
         time.sleep(5)
