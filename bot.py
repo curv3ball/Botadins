@@ -4,7 +4,7 @@ from imports import *
 start_time = time.time()
 secondsToRun = 2100
 
-debug = False
+debug = True
 
 if __name__ == "__main__":
     functions.watermark()
@@ -37,7 +37,17 @@ if __name__ == "__main__":
         if debug:
             print( f"count \t {time_difference}" )
 
-    print(f"bot stopped, killing {threads.count()} threads")
+        if time_difference >= secondsToRun:
+            functions.log(f"killing Paladins.exe")
+            subprocess.call("taskkill /IM Paladins.exe")
+            time.sleep(5)
+            functions.log(f"starting 444090 via steam")
+            subprocess.run("start steam://run/444090", shell=True)
+            time.sleep(10)
+            start_time = time.time()
+            os.system("cls")
+            functions.watermark()
+
     for function in threads:
         function.join()
         print(f"{function}")
