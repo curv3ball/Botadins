@@ -4,7 +4,7 @@ from imports import *
 start_time = time.time()
 secondsToRun = 2100
 
-debug = True
+debug = False
 
 if __name__ == "__main__":
     functions.watermark()
