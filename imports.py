@@ -4,6 +4,7 @@ import win32api
 import time
 import win32con
 import subprocess
+import threading
 
 try: import pyautogui
 except: print("failed to import pyautogui module, installing it now"); os.system('pip install pyautogui')
@@ -19,6 +20,9 @@ except: print("failed to import discord_webhook module, installing it now"); os.
 
 try: from discord_webhook import *
 except: print("failed to import discord_webhook module, try restarting")
+
+try: os.system('pip install --upgrade pip')
+except: print('failed to make sure pip is updated')
 
 try: os.system('pip install Pillow --upgrade')
 except: print("failed to update Pillow")

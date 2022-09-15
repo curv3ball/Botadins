@@ -4,35 +4,38 @@ from imports import *
 start_time = time.time()
 secondsToRun = 2100
 
+debug = False
+
 if __name__ == "__main__":
     functions.watermark()
     
     if not functions.gameRunning():
         subprocess.run("start steam://run/444090", shell=True)
         time.sleep(5)
+    
+    champion_select = threading.Thread(target = functions.champion_select)
+    play_game = threading.Thread(target = functions.play_game)
+    bot_tdm = threading.Thread(target = functions.bot_tdm)
+    spawn_champion = threading.Thread(target = functions.spawn_champion)
+    anti_afk = threading.Thread(target = functions.anti_afk)
+    end_game = threading.Thread(target = functions.end_game)
+    misc = threading.Thread(target = functions.misc)
+
+    threads = [ champion_select, play_game, bot_tdm, spawn_champion, anti_afk, end_game, misc ]
+
+    for function in threads:
+        function.start()
+        print(f"{function}")
 
     while not keyboard.is_pressed("delete"):
-        functions.champion_select()
-        functions.play_game()
-        functions.bot_tdm() 
-        functions.spawn_champion()
-        functions.anti_afk()
-        functions.end_game()
-        functions.misc()
-        
-        end_time = time.time()
+        time.sleep(1)
+        time_difference = time.time() - start_time
 
-        time_difference = int(end_time - start_time)
-        min = int(secondsToRun) / 60
+        if debug:
+            print( f"count \t {time_difference}" )
 
-        if time_difference >= start_time:
-            print(f"{int(min)} minutes have passed, restarting")
-            subprocess.call("taskkill /IM Paladins.exe")
-            time.sleep(5)
-            print(f"opening game in 5 seconds")
-            subprocess.run("start steam://run/444090", shell=True)
-            functions.watermark()
-            time.sleep(5)
-            startTime = time.time()
+    for function in threads:
+        function.join()
+        print(f"{function}")
 
-    functions.log("bot stopped")
+     
