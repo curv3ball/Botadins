@@ -37,6 +37,7 @@ if __name__ == "__main__":
         if debug:
             print( f"count \t {time_difference}" )
 
+    print(f"bot stopped, killing {threads.count()} threads")
     for function in threads:
         function.join()
         print(f"{function}")

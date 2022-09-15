@@ -22,6 +22,7 @@ def log(msg):
     logCount += 1
     if logCount > 15:
         watermark()
+        logCount = 0
 
     t = time.strftime("%I:%M %p")
     x = open("logs.txt", "a")
@@ -44,8 +45,8 @@ def mouseMove(x, y):
         time.sleep(0.05/10)
 
 def mouseMoveClick(vector, name = ""):
-    #mouseMove(vector[0], vector[1]) <-- this is to make it smooth, its just a visual effect the cursor isnt foreground idk how to fix that i searched online too
-    win32api.SetCursorPos(vector)
+    mouseMove(vector[0], vector[1]) #<-- this is to make it smooth, its just a visual effect the cursor isnt foreground idk how to fix that i searched online too
+    #win32api.SetCursorPos(vector)
     try:
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
         time.sleep(0.20)
